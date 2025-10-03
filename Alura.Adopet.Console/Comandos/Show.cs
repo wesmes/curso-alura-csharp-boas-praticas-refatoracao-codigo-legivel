@@ -9,9 +9,15 @@ namespace Alura.Adopet.Console.Comandos
 {
     [DocComando(instrucao: "show",
                 documentacao: "adopet show   <arquivo> comando que exibe no terminal o conteúdo do arquivo importado.")]
-    internal class Show
+    internal class Show : IComando
     {
-        public void ExibeConteudoArquivo(string caminhoDoArquivoASerExibido)
+        public Task ExecutarAsync(string[] args)
+        {
+            this.ExibeConteudoArquivo(caminhoDoArquivoASerExibido: args[1]);
+            return Task.CompletedTask;
+        }
+
+        private void ExibeConteudoArquivo(string caminhoDoArquivoASerExibido)
         {
             LeitorDeArquivo leitor = new LeitorDeArquivo();
             var listaDePets = leitor.RealizaLeitura(caminhoDoArquivoASerLido: caminhoDoArquivoASerExibido);
