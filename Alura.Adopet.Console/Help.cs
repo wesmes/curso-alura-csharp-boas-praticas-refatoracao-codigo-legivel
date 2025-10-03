@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,6 +11,14 @@ namespace Alura.Adopet.Console
                 documentacao: "adopet help comando que exibe informações de ajuda.")]
     internal class Help
     {
+        private Dictionary<string, DocComando> docs;
+        public Help()
+        {
+            docs = Assembly.GetExecutingAssembly().GetTypes()
+                .Where(t => t.GetCustomAttributes<DocComando>().Any())
+                .Select(t => t.GetCustomAttribute<DocComando>()!)
+                .ToDictionary(d => d.Instrucao);
+        }
         public void ExibeDocumentacao(string[] parametros)
         {
             System.Console.WriteLine("Lista de comandos.");
