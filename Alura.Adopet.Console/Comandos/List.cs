@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Alura.Adopet.Console.Modelos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
@@ -6,7 +7,7 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Alura.Adopet.Console
+namespace Alura.Adopet.Console.Comandos
 {
     [DocComando(instrucao: "list",
                 documentacao: "adopet list comando que exibe no terminal a lista de pets cadastrados na API.")]
@@ -15,7 +16,7 @@ namespace Alura.Adopet.Console
     {
         HttpClient client;
         public List() {
-            this.client = ConfiguraHttpClient("http://localhost:5057");
+            client = ConfiguraHttpClient("http://localhost:5057");
         }
         public async Task ListaDadosPetsDaAPIAsync()
         {
