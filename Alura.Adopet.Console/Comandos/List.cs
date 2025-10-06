@@ -1,4 +1,5 @@
 ﻿using Alura.Adopet.Console.Modelos;
+using Alura.Adopet.Console.Servicos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,35 +13,23 @@ namespace Alura.Adopet.Console.Comandos
     [DocComando(instrucao: "list",
                 documentacao: "adopet list comando que exibe no terminal a lista de pets cadastrados na API.")]
 
-    internal class List
+    internal class List : IComando
     {
-        HttpClient client;
-        public List() {
-            client = ConfiguraHttpClient("http://localhost:5057");
-        }
-        public async Task ListaDadosPetsDaAPIAsync()
+        public Task ExecutarAsync(string[] args)
         {
-            var pets = await ListPetsAsync();
+            this.ListaDadosPetsDaAPIAsync();
+            return Task.CompletedTask;
+        }
+
+        private async Task ListaDadosPetsDaAPIAsync()
+        {
+            var httpListPet = new HttpClientPet();
+            IEnumerable<Pet>? pets = await httpListPet.ListPetsAsync();
+            System.Console.WriteLine("----- Lista de Pets importados no sistema -----");
             foreach (var pet in pets)
             {
                 System.Console.WriteLine(pet);
             }
-        }
-
-        async Task<IEnumerable<Pet>?> ListPetsAsync()
-        {
-            HttpResponseMessage response = await client.GetAsync("pet/list");
-            return await response.Content.ReadFromJsonAsync<IEnumerable<Pet>>();
-        }
-
-        HttpClient ConfiguraHttpClient(string url)
-        {
-            HttpClient _client = new HttpClient();
-            _client.DefaultRequestHeaders.Accept.Clear();
-            _client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
-            _client.BaseAddress = new Uri(url);
-            return _client;
         }
     }
 }
