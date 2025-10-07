@@ -17,5 +17,16 @@ namespace Alura.Adopet.Testes
             Assert.NotNull(lista);
             Assert.NotEmpty(lista);
         }
+
+        [Fact]
+        public async Task QuandoAPIForaDeveRetornarUmaExcecao()
+        {
+            //Arrange
+            var clientePet = new HttpClientPet(uri:"http://localhost:1111");
+
+            //Act+Assert
+            await Assert.ThrowsAnyAsync<Exception>(() => clientePet.ListPetsAsync());
+
+        }
     }
 }
