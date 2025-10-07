@@ -5,7 +5,7 @@ using System.Net.Http.Json;
 
 namespace Alura.Adopet.Console.Servicos
 {
-    internal class HttpClientPet
+    public class HttpClientPet
     {
         private HttpClient client;
         public HttpClientPet()
